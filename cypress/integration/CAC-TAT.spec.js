@@ -154,5 +154,48 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
     cy.get('.success').should('be.visible');
   });
+
+  it('seleciona um produto (YouTube) por seu texto', () => {
+    cy.get('#product')
+      .select('YouTube')
+      .should('have.value', 'youtube');
+  });
+
+  it('seleciona um produto (Mentoria) por seu valor (value)', () => {
+    cy.get('#product')
+      .select('mentoria')
+      .should('have.value', 'mentoria');
+  });
+
+  it('seleciona um produto (Blog) por seu índice', () => {
+    cy.get('#product')
+      .select(1)
+      .should('have.value', 'blog');
+  });
+
+  it('marca o tipo de atendimento "Feedback"', () => {
+    cy.get('[type="radio"][value="feedback"]').check().should('be.checked');
+    cy.get('[type="radio"]').check('feedback').should('be.checked');
+    cy.get('[data-testid="feedback"]').check().should('be.checked');
+  });
+
+  it('marca cada tipo de atendimento', () => {
+    cy.get('[type="radio"]')
+      .should('have.length', 3)
+      .each(($radio) => {
+        cy.wrap($radio)
+          .check()
+          .should('be.checked');
+      });
+  });
+
+  it.only('marca ambos checkboxes, depois desmarca o último', () => {
+    cy.get('#check [type="checkbox"]')
+      .check()
+      .should('be.checked')
+      .last()
+      .uncheck()
+      .should('not.be.checked');
+  });
   
 });
